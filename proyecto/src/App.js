@@ -9,6 +9,8 @@ import { collection, addDoc, deleteDoc, doc, onSnapshot } from "firebase/firesto
 function App() {
   const [input, setInput] = useState("");
   const [nombre, setNombre] = useState("");
+  const [fecha, setFecha] = useState("");
+  const [hora, setHora] = useState("");
   const [tarea, setTasks] = useState([]);
   const [completed, setCompleted] = useState([]);
 
@@ -64,10 +66,14 @@ function App() {
       await addDoc(tasksRef, {
         texto: trimmed,
         nombre: trimmedName,
+        fecha: fecha || null,
+        hora: hora || null,
         completed: false
       });
       setInput("");
       setNombre("");
+      setFecha("");
+      setHora("");
     }
   };
 
@@ -101,7 +107,20 @@ function App() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addTask()}
           />
-          
+          <div className="flex gap-2">
+            <input
+              type="date"
+              className="border rounded-lg px-3 py-2 flex-1"
+              value={fecha}
+              onChange={(e) => setFecha(e.target.value)}
+            />
+            <input
+              type="time"
+              className="border rounded-lg px-3 py-2 flex-1"
+              value={hora}
+              onChange={(e) => setHora(e.target.value)}
+            />
+          </div>
           <button
             onClick={addTask}
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition"
